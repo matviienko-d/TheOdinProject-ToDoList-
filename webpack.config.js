@@ -3,6 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -86,7 +87,8 @@ module.exports = {
      new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html'
-     })
-     //new CleanWebpackPlugin()
+     }),
+     //new MomentLocalesPlugin()
+     new CleanWebpackPlugin()
    ]
 };

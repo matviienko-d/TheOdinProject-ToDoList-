@@ -11,5 +11,6 @@ import '../assets/img/icons/radio_button_unchecked.svg';
 import '../assets/img/icons/radio_button_checked.svg';
 import '../assets/img/icons/subject_description.svg';
 import '../assets/img/icons/task_name.svg';
+import '../assets/img/icons/checklist_done.svg';
 //Import bg-image
 import '../assets/img/bg/landscape-bg.jpg';

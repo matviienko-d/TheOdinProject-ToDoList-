@@ -1,11 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,400&display=swap');
 
-@import "nullstyle";
+@import "mixins";
 @import "variables";
+@import "nullstyle";
+
 
 .body {
 	background-image: url('../img/bg/landscape-bg.jpg');
 	background-size: cover;
+	background-repeat: no-repeat;
+}
+*::-webkit-scrollbar {
+    width: 1em;
+}
+*::-webkit-scrollbar-track {
+    -webkit-box-shadow: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  border-radius: 12px;
 }
 .main {
 	min-width: 960px;
@@ -54,29 +67,41 @@
 	border-radius: $list-border-radius;
 	background-color: #fff;
 	&__h1 {
+		flex-grow: 100;
 		padding-left: 14px;
 		font-family: $main-font;
 		font-weight: $font-bold;
 		font-size: 24px;
 		color: #000;
 		display: inline-block;
-		flex-grow: 100;
+	}
+	&__edit-title-icon {
+		@include hide-element(none);
+		margin-left: 14px;
+		width: 16px;
+		height: 16px;
+		fill: #000;
+	}
+	&__edit-title-icon:hover {
+		fill: $main-action-color;
+	}
+	&:hover .list-description__edit-title-icon {
+		display: inline-block;
 	}
 	&__change-name-input {}
 	&__change-name-input_display_none {
-		display: none;
+		@include hide-element(none);
 	}
 	&__delete-list-icon {
 		display: none;
 		fill: #000;
-		flex-grow: 1;
 		min-width: 12.44px;
 		flex-basis: 0;
 		height: 16px;
 		margin-right: 20px; 
 	}
 	&__delete-list-icon:hover {
-		fill: #4527A0;
+		fill: $main-action-color;
 	}
 	&:hover .list-description__delete-list-icon {
 		display: inline-block;
@@ -99,13 +124,14 @@
 	&__task-item:first-child {
 		margin-top: 21px;
 	}
-	&__task-elements {
-		height: 100%;
-		display: grid;
-		align-items: center;
-		grid-template-columns: 23px max-content 54px auto max-content 23px;
-		padding: 0 15px;
-	}
+
+}
+.task-elements {
+	height: 100%;
+	display: grid;
+	align-items: center;
+	grid-template-columns: 23px max-content 54px auto max-content 23px;
+	padding: 0 15px;
 	&__radio-button {
 		width: $task-icons-size;
 		height: $task-icons-size;
@@ -120,10 +146,28 @@
 		margin-left: 20px;
 		transform: skew(-25deg);
 		height: 100%;
-		background-color: $priority-color-5;
-	} 
+		background-color: $priority-color-3;
+		&_color_1 {
+			@extend .priority__list-colors-item_bg-color_1;
+		}
+		&_color_2 {
+			@extend .priority__list-colors-item_bg-color_2;
+		}
+		&_color_3 {
+			@extend .priority__list-colors-item_bg-color_3;
+		}
+		&_color_4 {
+			@extend .priority__list-colors-item_bg-color_4;
+		}
+		&_color_5 {
+			@extend .priority__list-colors-item_bg-color_5;
+		}
+		&_color_null {
+			background-color: transparent;
+		}
+	}
 	&__rest-time {
-		@extend .tasks__h2;
+		@extend .task-elements__h2;
 		margin-right: 64px;
 		grid-column: 5 / 5;
 		font-style: italic;
@@ -137,6 +181,18 @@
 		border-radius: 50%;
 		border: 2px solid $main-action-color;
 		fill: $main-action-color;
+	}
+	&_state_done {
+		.task-elements__h2 {
+			color: $main-radio-color;
+		}
+		.task-elements__priority {
+			background-color: $main-radio-color;
+		}
+		.task-elements__delete-task-icon {
+			fill: #000;
+			border-color: #000;
+		}
 	}
 }
 .add-task {
@@ -180,7 +236,7 @@
 	position: absolute;
 	background-color: rgba(0,0,0,.5);
 	&_display_none {
-		display: none;
+		@include hide-element(!important);
 	}
 }
 .add-list-menu {
@@ -230,6 +286,295 @@
 		}
 	}
 }
+.task-properties {
+	@extend .add-list-wrapper;
+	max-height: 100vh;
+	overflow: hidden;
+	&__container {
+		border-radius: $list-border-radius;
+		padding: 25px 42px;
+		overflow-y: auto;
+		background-color: #fff;
+		max-height: 90vh;
+		width: 100%;
+		max-width: 760px;
+		@media only screen and (min-width: $break-max) {
+			max-width: 940px;
+		}
+	}
+	&__task-description {
+		margin-top: 40px;
+	}
+	&_display_none {
+		@include hide-element(important);
+	}
+	&__checklist {
+		@extend .task-properties__task-description;
+	}
+	&__priority {
+		@extend .task-properties__task-description;
+	}
+	&__due-date {
+		@extend .task-properties__task-description;
+	}
+}
+.title {
+	font-family: $main-font;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	&__icon {
+		height: 17px;
+		width: 17.94px;
+		fill: #000;}
+	&__h1 {
+		display: inline-block;
+		font-weight: $font-bold;
+		font-size: 24px;
+		margin-left: 17px;
+	}
+	&__title-edit-input {
+		&_display_none {
+			@include hide-element(none);
+		}
+	}
+	&__expand-icon {
+		margin-left: 12px;
+		width: 17px;
+		height: 17px;
+		fill: #000;
+		
+	}
+}
+.task-description {
+	font-family: $main-font;
+	&__textarea-container {
+		margin: 15px 0 0 34.94px;
+	}
+	&__textarea {
+		padding: 19px 24px; 
+		width: 100%;
+		resize: none;
+		height: 215px;
+		border-radius: $list-border-radius;
+		background-color: $task-properties-elem-bg;
+		font-size: 18px;
+	}
+}
+.checklist {
+	font-family: $main-font;
+	&__task-parts-list {
+		display: flex;
+		flex-direction: column;
+	}
+	&__task-parts-item {
+		cursor: pointer;
+		border-radius: 3px;
+		height: 38px;
+		position: relative;
+		display: grid;
+		align-items: center;
+		grid-template-columns: 15px max-content auto 15px;
+	}
+	&__task-parts-item:hover {
+	box-shadow: -8px 0px 0px 0px $task-properties-elem-bg, 8px 0px 0px 0px $task-properties-elem-bg;
+	background-color: $task-properties-elem-bg;
+	}
+	&__task-parts-item_state_done {
+		cursor: auto;
+		.checklist__checklist-done-item {
+			border-color: $priority-color-1;
+			background-color: $priority-color-1;
+		}
+		.checklist__done-icon {
+			fill: #fff;
+
+		}
+		.checklist__delete-icon {
+			fill: $main-radio-color;
+		}
+		.checklist__delete-icon:hover {
+			fill: #000;
+		}
+		.checklist__h2 {
+			color: $main-radio-color;
+			text-decoration: line-through;
+		}
+		&:hover {
+			background-color: transparent;
+			box-shadow: none;
+		}
+	}
+	/*&__task-parts-item_state_done:before {
+		z-index: 1000;
+		content: '';
+		width: 690px;
+		height: 1px;
+		position: absolute;
+		top: 18.5px;
+		left: -7px;
+		background-color: $main-radio-color;
+		@media only screen and (min-width: $break-max) {
+			width: 870px;
+		}
+	}*/
+	&__checklist-done-item {
+		width: 15px;
+		height: 15px;
+		border: 2px solid $main-radio-color;
+		background-color: transparent;
+	}
+	&__h2 {
+		padding-left: 18px;
+		font-size: 19px;
+	}
+	&__delete-icon {
+		cursor: pointer;
+		z-index: 2000;
+		width: 15px;
+		height: 15px;
+		fill: #000;
+		grid-column-start: 4;
+	}
+	&__done-icon{
+		width: 13.03px;
+		height: 9.94px;
+		fill: none;
+		position: relative;
+		top: -5.4px;
+		left: -0.6px;
+	}
+	&__task-properties-button {
+		margin: 18px 0 0 35px;
+	}
+}
+
+.task-properties-button {
+	font-family: $main-font;
+	padding: 7px 16px;
+	background-color: $task-properties-elem-bg;
+	font-size: 19px;
+}
+
+.priority {
+	&__list-colors {
+		@extend .task-description__textarea-container;
+	}
+	&__list-colors-item {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		padding-right: 15px;
+		margin-top: 13px;
+		cursor: pointer;
+		height: 43px;
+		width: 272px;
+		border-radius: 5px;
+			&_bg-color_1 {
+				background-color: $priority-color-1;
+			}
+			&_state_selected {
+				.priority__choose-color-icon {
+					fill: #fff;
+				}
+			}
+			&_bg-color_2 {
+				background-color: $priority-color-2;
+			}
+			&_bg-color_3 {
+				background-color: $priority-color-3;
+			}
+			&_bg-color_4 {
+				background-color: $priority-color-4;
+			}
+			&_bg-color_5 {
+				background-color: $priority-color-5;
+			}
+	}
+	&__list-colors-item:first-child {
+		margin: none;
+	}
+	&__choose-color-icon {
+		width: 17px;
+		height: 17px;
+		fill: none;
+	}
+
+}
+
+.due-date {
+	position: relative;
+	font-family: $main-font;
+	&__user-date {
+		font-style: italic;
+		position: absolute;
+		text-align: right;
+		font-size: 18px;
+		color: $main-radio-color;
+		width: 100%;
+		top: 10px;
+	}
+	&__task-properties-button {
+		@extend .checklist__task-properties-button;
+		&_display_none {
+			@include hide-element(none);
+		}
+	}
+	&__set-due-form {
+
+	}
+}
+.set-due-form {
+	font-family: $main-font;
+	margin: 5px 0 0 35px;
+	&_display_none {
+		@include hide-element(none);
+	}
+	&__set-time-label {
+		font-weight: $font-bold;
+		display: block;
+		color: #000;
+		font-size: 19px;
+	}
+	&__confirm-btns {
+		width: 272px;
+		display: flex;
+		justify-content: space-between; 
+		margin-top: 15px;
+	}
+	&__d-button {
+		color: #fff;
+		min-width: 105px;
+		font-size: 18px;
+		border-radius: 5px;
+		padding: 5px 0;
+		&_action_save {
+			background-color: #4CAF50;
+		}
+		&_action_remove {
+			background-color: #F44336;
+		}
+	}
+	&__due-input {
+		padding: 0 10px;
+		border-radius: 5px;
+		font-size: 18px;
+		width: 272px;
+		height: 43px;
+		border: 2px solid $main-radio-color;
+		margin-top: 5px;
+		&:focus {
+			border-color: $main-action-color;
+		}
+	}
+	
+}
+
+
+
+
+
+
 
 
 
