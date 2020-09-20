@@ -6,12 +6,12 @@
 
 
 .body {
-	background-image: url('../img/bg/landscape-bg.jpg');
+	background: url('../img/bg/landscape-bg.jpg') 0 100% no-repeat; 
 	background-size: cover;
-	background-repeat: no-repeat;
+	overflow: hidden;
 }
 *::-webkit-scrollbar {
-    width: 1em;
+    width: .5em;
 }
 *::-webkit-scrollbar-track {
     -webkit-box-shadow: transparent;
@@ -55,12 +55,16 @@
 	}
 }
 .task-lists {
+	min-height: 90vh;
+	max-height: 90vh;
+    overflow-y: auto;
 	&__list {
 		margin-top: 25px;
 	}
 }
 .list-description {
 	cursor: pointer;
+	position: relative;
 	display: flex;
 	align-items: center;
 	height: 51px;
@@ -88,7 +92,22 @@
 	&:hover .list-description__edit-title-icon {
 		display: inline-block;
 	}
-	&__change-name-input {}
+	&__change-name-input {
+		position: absolute;
+		font-size: 20px;
+		background-color: #fff;
+		border-radius: 5px;
+		padding-left: 20px;
+		height: 36px;
+		left: 13.5px;
+		width: 33.333%;
+		font-family: $main-font;
+
+		&:focus {
+			box-shadow: 0 0 0 3px $main-action-color;
+		}
+	}
+
 	&__change-name-input_display_none {
 		@include hide-element(none);
 	}
@@ -111,9 +130,19 @@
 		min-width: 25.6px;
 		flex-basis: 0;
 		margin-right: 14px;
+		transition: transform .3s ease-out;
+		&_transition_rotate {
+			transform: rotate(180deg); 
+		}
 	}
 }
 .tasks {
+	max-height: 0;
+	transition:max-height .3s ease-out;
+	overflow: hidden;
+	&_content_show {
+		max-height: 1000px;
+	}
 	&__task-item {
 		cursor: pointer;
 		height: 38px;
@@ -261,7 +290,10 @@
 		border-radius: $list-border-radius;
 	}
 	&__input:focus {
-		border: 3px solid $main-action-color;
+		box-shadow: 0 0 0 3px $main-action-color;
+	}
+	&__input_content_empty {
+		box-shadow: 0 0 0 3px $priority-color-3;
 	}
 	&__buttons {
 		display: flex;
@@ -343,7 +375,6 @@
 		width: 17px;
 		height: 17px;
 		fill: #000;
-		
 	}
 }
 .task-description {
