@@ -4,76 +4,76 @@ import {Task} from './taskConstructor.js';
 
 const defaultLists = {
 	'Daily Plans': {
-		'Wash my car': new Task(
-			null, 
-			[
+		'Wash my car': {
+			description: null, 
+			checklist: [
 			 {title: 'find something', done: true},
 		   	 {title: 'something else', done: false},
 		   	 {title: 'find something', done: false}
 		   	],
-		   	3,
-		   	new Date(Date.now() + 24 * 3600 * 1000),
-			false
-		),
-		'Something else':  new Task(
-			'blblblblbl', 
-			[
+		   	priority: 3,
+		   	dueDate: new Date(Date.now() + 24 * 3600 * 1000),
+			done: false
+		},
+		'Something else':  {
+			description: 'blblblbl', 
+			checklist: [
 			 {title: 'find something', done: true},
 		   	 {title: 'something else', done: false},
 		   	 {title: 'find something', done: false}
 		   	],
-		   	1,
-		   	new Date(Date.now() + 24 * 3600 * 1000),
-		   	true
-		)
+		   	priority: 1,
+		   	dueDate: new Date(Date.now() + 24 * 3600 * 1000),
+		   	done: true
+		}
 	},
 	'Tomorrow': {
-		'Something tomorrow': new Task(
-			'blblblblbl', 
-			[
+		'Something tomorrow': {
+			description: 'blblbllbl', 
+			checklist: [
 			 {title: 'find something', done: true},
 		   	 {title: 'something else', done: false},
 		   	 {title: 'find something', done: false}
 		   	],
-		   	2,
-		   	new Date(Date.now() + 100 * 24 * 3600 * 1000),
-		   	true
-		),
-		'Something else tomorrow': new Task(
-			'blblblblbl', 
-			[
+		   	priority: 2,
+		   	dueDate: new Date(Date.now() + 100 * 24 * 3600 * 1000),
+		   	done: true
+		},
+		'Something else tomorrow': {
+			description: 'lblblbl', 
+			checklist: [
 			 {title: 'find something', done: true},
 		   	 {title: 'something else', done: false},
 		   	 {title: 'find something', done: false}
 		   	],
-		   	2,
-		   	null,
-		   	true
-		)
+		   	priority: 2,
+		   	dueDate: null,
+		   	done: true
+		}
 	},
 	'Buy list': {
-		'Apple': new Task(
-			null, 
-			[
+		'Apple': {
+			description: null, 
+			checklist: [
 			 {title: 'find something', done: true},
 		   	 {title: 'something else', done: false},
 		   	 {title: 'find something', done: false}
 		   	],
-		   	2,
-		   	new Date(Date.now() + 24 * 3600 * 1000),
-		   	true
-		),
-		'Other stuff': new Task(
-			'blblblblbl', 
-			[
+		   	priority: 2,
+		   	dueDate: new Date(Date.now() + 24 * 3600 * 1000),
+		   	done: true
+		},
+		'Other stuff': {
+			description: 'blblblblbl', 
+			checklist: [
 			 {title: 'find something', done: true},
 		   	 {title: 'something else', done: false},
 		   	 {title: 'find something', done: false}
 		   	],
-		   	2,
-		   	new Date(Date.now() + 100 * 24 * 3600 * 1000),
-		   	false
-		)
+		   	priority: 2,
+		   	dueDate: new Date(Date.now() + 100 * 24 * 3600 * 1000),
+		   	done: false
+		}
 	}
 };
 
@@ -104,6 +104,10 @@ let userLists = findList('userList');
 events.on('addNewList', saveList);
 events.on('changeListTitle', saveList);
 events.on('removeList', saveList);
+events.on('toggleDone', saveList);
+events.on('removeTask', saveList);
+events.on('addNewTask', saveList);
+
 export {
 	saveList,
 	userLists

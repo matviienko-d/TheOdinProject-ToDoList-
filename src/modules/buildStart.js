@@ -21,10 +21,22 @@ const sortEntries = function(entries) {
 	return entries.sort((a,b) => a[0].localeCompare(b[0]));
 };
 
+const findShownTasks = function() {
+	const shownListsTitles = [];
+	const shownLists = document.querySelectorAll('.tasks_content_show');
+	for(let list of shownLists) {
+		shownListsTitles.push(list.closest('.task-lists__list').
+			querySelector('.list-description__h1').textContent.trim());
+	}
+	return shownListsTitles;
+};
+
 const buildList = function(userLists) {
-  if(!!listHolder.firstElementChild) {
-    listHolder.innerHTML = '';
-  }
+	const shownListsTitles = findShownTasks();
+	if(!!listHolder.firstElementChild) {
+		listHolder.innerHTML = '';
+	}
+
   	const sortedUserListsEntries = sortEntries(Object.entries(userLists));
 	for(let [listTitle, tasks] of sortedUserListsEntries) {
 		let list = document.createElement('div');
@@ -32,11 +44,10 @@ const buildList = function(userLists) {
 
     let taskList = document.createElement('ul');
     taskList.classList.add('tasks');
-
     let addTaskForm = document.createElement('li');
     addTaskForm.classList.add('tasks__task-item-form');
     addTaskForm.innerHTML = `
-    	<form class="add-task">
+    	<form class="add-task" onsubmit="return false">
 		    <fielset class="add-task__fields">
 		      <input type="text" class="add-task__name-input" placeholder="Click to add task"><button class="add-task__add-button">
 		        <svg class="add-task__button-icon">
@@ -64,13 +75,19 @@ const buildList = function(userLists) {
 		      </svg>
 		    </div>  
 		`;
+		//open list if it was opened before action
+		if(!!shownListsTitles.includes(listTitle)) {
+    		taskList.classList.add('tasks_content_show');
+    		list.querySelector('.list-description__expand-list-icon').classList.
+    			add('list-description__expand-list-icon_transition_rotate');
+    	}
 		const sortedTaskEntries = sortEntries(Object.entries(tasks));
 		for(let [taskName, taskProperties] of sortedTaskEntries) {
 			let listItem = document.createElement('li');
 			listItem.classList.add('tasks__task-item');
 
 			listItem.innerHTML = `
-	            <div class="task-elements ${taskProperties.done ? 'task-elements_state_done' : '\'\''}">
+	            <div class="task-elements ${taskProperties.done ? 'task-elements_state_done' : ''}">
 	              <svg class="task-elements__radio-button">
 	                <use xlink:href="#${taskProperties.done ? 'radio_button_checked' : 'radio_button_unchecked'}"></use>
 	              </svg>
@@ -93,6 +110,9 @@ const buildList = function(userLists) {
 events.on('addNewList', buildList);
 events.on('changeListTitle', buildList);
 events.on('removeList', buildList);
+events.on('removeTask', buildList);
+events.on('addNewTask', buildList);
+
 export {
   buildList
 };

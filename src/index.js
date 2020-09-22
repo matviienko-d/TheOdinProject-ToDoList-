@@ -10,7 +10,8 @@ import {buildList} from './modules/buildStart.js';
 import './modules/addListMenuModule.js';
 
 import './modules/list.js';
-
+//Module for start page tasks
+import './modules/taskOnStartPage.js';
 //build start page
 buildList(userLists);
 

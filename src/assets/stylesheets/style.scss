@@ -226,7 +226,7 @@
 }
 .add-task {
 	&__fields {
-		margin: 12px auto 0 auto;
+		margin: 12px auto 3.5px auto;
 		align-items: center;
 		display: flex;
 		border-radius: $list-border-radius;
@@ -234,6 +234,10 @@
 		width: 268px;
 		height: 38px;
 		padding: 0 15px;
+
+		&_content_empty {
+			@extend .add-list-menu__input_content_empty;
+		}
 	}
 	&__name-input {
 		color: #000;
@@ -323,6 +327,7 @@
 	max-height: 100vh;
 	overflow: hidden;
 	&__container {
+		position: relative;
 		border-radius: $list-border-radius;
 		padding: 25px 42px;
 		overflow-y: auto;
@@ -350,6 +355,17 @@
 		@extend .task-properties__task-description;
 	}
 }
+.close-menu {
+	position: absolute;
+	left: 95%;
+	top: 33px;
+	cursor: pointer;
+	&__icon {
+		width: 20px;
+		height: 20px;
+		fill: #000;
+	}
+}
 .title {
 	font-family: $main-font;
 	display: flex;
@@ -369,12 +385,6 @@
 		&_display_none {
 			@include hide-element(none);
 		}
-	}
-	&__expand-icon {
-		margin-left: 12px;
-		width: 17px;
-		height: 17px;
-		fill: #000;
 	}
 }
 .task-description {

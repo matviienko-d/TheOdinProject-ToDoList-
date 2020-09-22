@@ -6,6 +6,9 @@ class Task {
 		this.dueDate = dueDate;
 		this.done = done;
 	}
+	toggleDone() {
+		this.done = !this.done;
+	}
 }
 
 export {
