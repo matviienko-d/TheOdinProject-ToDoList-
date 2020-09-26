@@ -1,6 +1,6 @@
-import {checkUserInput} from './addListMenuModule.js';
-import {userLists} from './DATA-JSON.js';
-import {events} from './pubSub.js';
+import {checkUserInput} from './../addListMenu/addListMenuModule.js';
+import {userLists} from './../DATA-JSON.js';
+import {events} from './../pubSub.js';
 //cache DOM
 const listUl = document.querySelector('.tasks');
 const taskLists = document.querySelector('.task-lists');
@@ -23,7 +23,7 @@ const handleListTitleInput = function(event) {
 		userLists.changeListTitle(
 			    input.previousElementSibling.textContent.trim(), input.value);
 
-		events.emit('changeListTitle', userLists);
+		events.emit('changeListTitle', [userLists]);
 	}else {
 		input.blur();
 	}
@@ -66,7 +66,7 @@ taskLists.addEventListener('click', function(event) {
 const removeList = function(listDescription) {
 	userLists.removeList(listDescription.querySelector('.list-description__h1').
 						  textContent.trim());
-	events.emit('removeList', userLists);
+	events.emit('removeList', [userLists]);
 };
 
 taskLists.addEventListener('click', function(event) {

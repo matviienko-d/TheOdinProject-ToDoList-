@@ -1,6 +1,6 @@
-import {userLists} from './DATA-JSON.js';
-import {events} from './pubSub.js';
-import {checkUserInput} from './addListMenuModule.js';
+import {userLists} from './../DATA-JSON.js';
+import {events} from './../pubSub.js';
+import {checkUserInput} from './../addListMenu/addListMenuModule.js';
 //cache DOM
 const taskLists = document.querySelector('.task-lists');
 
@@ -35,7 +35,7 @@ const addNewTask = function(event) {
 	userInput.removeEventListener('click', addNewTask);
 	if(checkUserInput(userInput) && userLists.isTaskUnique(listTitle ,userInput.value)) {
 		userLists.addNewTask(listTitle, userInput.value);
-		events.emit('addNewTask', userLists);
+		events.emit('addNewTask', [userLists]);
 	}else {
 		showInputWarning(userInput.closest('.add-task__fields'));
 	}
@@ -57,7 +57,7 @@ taskLists.addEventListener('click', function(event) {
 
 		UItoggleDoneTask(target.closest('.task-elements'));
 		userLists.toggleDoneTask(listTitle, taskTitle);
-		events.emit('toggleDone', userLists);
+		events.emit('toggleDone', [userLists]);
 	}else if(target.classList.contains('task-elements__delete-task-icon')) {
 		//delete task(handle x-button)
 		const taskTitle = target.parentElement.
@@ -66,9 +66,16 @@ taskLists.addEventListener('click', function(event) {
 			querySelector('.list-description__h1').textContent.trim();
 
 		userLists.removeTask(listTitle, taskTitle);
-		events.emit('removeTask', userLists);
+		events.emit('removeTask', [userLists]);
 	}else if(!!event.target.closest('.add-task__name-input')) {
 		//add new task
 		event.target.nextElementSibling.addEventListener('click', addNewTask);
+	}else if(!event.target.closest('.add-task')) {
+		//create task-menu for item
+		const taskTitle = target.closest('.task-elements ').querySelector('.task-elements__h2').
+			textContent.trim();
+		const listTitle = target.closest('.task-lists__list').
+			querySelector('.list-description__h1').textContent.trim();
+		events.emit('userOpenTaskMenu', [userLists ,userLists[listTitle][taskTitle], listTitle, taskTitle]);
 	}
 });

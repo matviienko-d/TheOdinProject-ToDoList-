@@ -1,6 +1,6 @@
 import moment from 'moment';
 import 'moment-precise-range-plugin';
-import {events} from './pubSub.js';
+import {events} from './../pubSub.js';
 
 //cache DOM
 const listHolder = document.querySelector('.task-lists');
@@ -31,9 +31,12 @@ const findShownTasks = function() {
 	return shownListsTitles;
 };
 
-const buildList = function(userLists) {
+const buildList = function(args) {
+	const userLists = args[0];
+	let scrollTop;
 	const shownListsTitles = findShownTasks();
 	if(!!listHolder.firstElementChild) {
+		scrollTop = listHolder.scrollTop;
 		listHolder.innerHTML = '';
 	}
 
@@ -104,6 +107,7 @@ const buildList = function(userLists) {
 		taskList.append(addTaskForm);
 		list.append(taskList);
 		listHolder.append(list);
+		listHolder.scrollTop = scrollTop;
 	}
 };	
 
@@ -112,6 +116,11 @@ events.on('changeListTitle', buildList);
 events.on('removeList', buildList);
 events.on('removeTask', buildList);
 events.on('addNewTask', buildList);
+events.on('changeTaskTitle', buildList);
+events.on('taskPriorityChanged', buildList);
+events.on('dueDateUpdated', buildList);
+
+
 
 export {
   buildList

@@ -1,5 +1,5 @@
-import {userLists} from './DATA-JSON.js';
-import {events} from './pubSub.js';
+import {userLists} from './../DATA-JSON.js';
+import {events} from './../pubSub.js';
 //cache DOM
 const addListMenu = document.querySelector('.add-list-wrapper');
 const showMenuButton = document.querySelector('.add-list-button');
@@ -18,9 +18,9 @@ showMenuButton.addEventListener('click', function() {
 const addTaskHolder = function() {
 	if(checkUserInput(userInput) && userLists.isListUnique(userInput.value)) {
 		addNewListItem();
-		events.emit('addNewList', userLists);
+		events.emit('addNewList', [userLists]);
 	}else {
-		showInputWarning(userInput);
+		showInputWarning(userInput, 'add-list-menu__input_content_empty');
 	}
 };
 
@@ -41,16 +41,17 @@ const checkUserInput = function(userInput) {
 
 };
 
-const showInputWarning = function(userInput) {
-	userInput.classList.add('add-list-menu__input_content_empty');
+const showInputWarning = function(userInput, warningClass) {
+	userInput.classList.add(warningClass);
 
 	userInput.onfocus = function() {
-		userInput.classList.remove('add-list-menu__input_content_empty');
+		userInput.classList.remove(warningClass);
 	};
 };
 
 createButton.addEventListener('click', addTaskHolder);
 
 export {
-	checkUserInput
+	checkUserInput,
+	showInputWarning
 };

@@ -9,22 +9,24 @@ const defaultLists = {
 			checklist: [
 			 {title: 'find something', done: true},
 		   	 {title: 'something else', done: false},
-		   	 {title: 'find something', done: false}
+		   	 {title: 'find ', done: false}
 		   	],
 		   	priority: 3,
 		   	dueDate: new Date(Date.now() + 24 * 3600 * 1000),
-			done: false
+			done: false,
+			title: 'Wash my car'
 		},
 		'Something else':  {
 			description: 'blblblbl', 
 			checklist: [
 			 {title: 'find something', done: true},
 		   	 {title: 'something else', done: false},
-		   	 {title: 'find something', done: false}
+		   	 {title: 'find', done: false}
 		   	],
 		   	priority: 1,
 		   	dueDate: new Date(Date.now() + 24 * 3600 * 1000),
-		   	done: true
+		   	done: true,
+			title: 'Something else'
 		}
 	},
 	'Tomorrow': {
@@ -33,46 +35,49 @@ const defaultLists = {
 			checklist: [
 			 {title: 'find something', done: true},
 		   	 {title: 'something else', done: false},
-		   	 {title: 'find something', done: false}
+		   	 {title: 'find', done: false}
 		   	],
 		   	priority: 2,
 		   	dueDate: new Date(Date.now() + 100 * 24 * 3600 * 1000),
-		   	done: true
+		   	done: true,
+			title: 'Something tomorrow'
 		},
 		'Something else tomorrow': {
 			description: 'lblblbl', 
 			checklist: [
 			 {title: 'find something', done: true},
 		   	 {title: 'something else', done: false},
-		   	 {title: 'find something', done: false}
+		   	 {title: 'find', done: false}
 		   	],
 		   	priority: 2,
 		   	dueDate: null,
-		   	done: true
+		   	done: true,
+			title: 'Something else tomorrow'
 		}
 	},
 	'Buy list': {
 		'Apple': {
 			description: null, 
 			checklist: [
-			 {title: 'find something', done: true},
-		   	 {title: 'something else', done: false},
-		   	 {title: 'find something', done: false}
+			 {title: 'Wash apple', done: false},
+		   	 {title: 'Eat apple', done: false},
 		   	],
 		   	priority: 2,
 		   	dueDate: new Date(Date.now() + 24 * 3600 * 1000),
-		   	done: true
+		   	done: true,
+			title: 'Apple'
 		},
 		'Other stuff': {
 			description: 'blblblblbl', 
 			checklist: [
 			 {title: 'find something', done: true},
 		   	 {title: 'something else', done: false},
-		   	 {title: 'find something', done: false}
+		   	 {title: 'find', done: false}
 		   	],
 		   	priority: 2,
 		   	dueDate: new Date(Date.now() + 100 * 24 * 3600 * 1000),
-		   	done: false
+		   	done: false,
+			title: 'Other stuff'
 		}
 	}
 };
@@ -88,7 +93,8 @@ const createLists = function(jsonLists) {
 	return userLists;
 };
 
-const saveList = function(list) {
+const saveList = function(args) {
+	const list = args[0];
 	localStorage.setItem('userList', JSON.stringify(list));
 };
 
@@ -107,6 +113,16 @@ events.on('removeList', saveList);
 events.on('toggleDone', saveList);
 events.on('removeTask', saveList);
 events.on('addNewTask', saveList);
+events.on('changeTaskTitle', saveList);
+events.on('taskDescriptionUpdate', saveList);
+events.on('toggleDoneChecklistItem', saveList);
+events.on('checklistItemRemoved', saveList);
+events.on('newChecklistItem', saveList);
+events.on('taskPriorityChanged', saveList);
+events.on('dueDateUpdated', saveList);
+
+
+
 
 export {
 	saveList,
