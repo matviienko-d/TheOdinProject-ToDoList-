@@ -1,7 +1,0 @@
-@mixin hide-element($important) {
-	@if $important == important {
-		display: none !important;
-	} @else {
-		display: none;
-	}
-}
